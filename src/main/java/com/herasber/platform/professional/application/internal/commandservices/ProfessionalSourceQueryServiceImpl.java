@@ -20,8 +20,13 @@ public class ProfessionalSourceQueryServiceImpl implements ProfessionalSourceQue
     }
 
     @Override
+    public List<ProfessionalSource> handleGetAll() {
+        return professionalSourceRepository.findAll();
+    }
+
+    @Override
     public List<ProfessionalSource> handleGetAllByCity(String cityName) {
-        return professionalSourceRepository.findAllByLocation_CityName(cityName);
+        return professionalSourceRepository.findAllByLocation_CityName(cityName); // ojo con el embeddable
     }
 
     @Override
