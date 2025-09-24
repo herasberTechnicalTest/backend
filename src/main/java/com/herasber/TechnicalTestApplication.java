@@ -1,11 +1,11 @@
-package com.herasber.TechnicalTest;
+package com.herasber;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.herasber")
 public class TechnicalTestApplication {
 
 	public static void main(String[] args) {
