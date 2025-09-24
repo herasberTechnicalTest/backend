@@ -3,7 +3,7 @@ package com.herasber.platform.professional.interfaces.rest.resources;
 import java.math.BigDecimal;
 import java.util.List;
 
-public record ProfessionalSourceResource(
+public record UpdateProfessionalSourceResource(
         Long id,
         String fullName,
         String phone,
@@ -12,9 +12,8 @@ public record ProfessionalSourceResource(
         List<String> gallery,
         BigDecimal rate,
         String currency,
-        String city,
-        String district,
-        String mapsLink,
-        String whatsappLink
+        String cityName,
+        String districtName,
+        String mapsUrl
 ) {
 }

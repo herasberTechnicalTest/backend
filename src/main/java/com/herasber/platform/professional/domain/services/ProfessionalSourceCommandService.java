@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface ProfessionalSourceCommandService {
     com.herasber.platform.professional.domain.model.aggregates.ProfessionalSource handle(CreateProfessionalSourceCommand command);
-    Optional<com.herasber.platform.professional.domain.model.aggregates.ProfessionalSource> update(Long id, UpdateProfessionalSourceCommand command);
-    boolean delete(Long id);
+    Optional<com.herasber.platform.professional.domain.model.aggregates.ProfessionalSource> update(UpdateProfessionalSourceCommand command); // PUT
+    void delete(Long id);
 }

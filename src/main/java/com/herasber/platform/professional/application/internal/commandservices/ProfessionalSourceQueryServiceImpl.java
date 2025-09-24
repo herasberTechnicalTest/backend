@@ -12,25 +12,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProfessionalSourceQueryServiceImpl implements ProfessionalSourceQueryService {
 
-    private final ProfessionalSourceRepository professionalSourceRepository;
+    private final ProfessionalSourceRepository repository;
 
     @Override
     public Optional<ProfessionalSource> handleGetById(Long id) {
-        return professionalSourceRepository.findById(id);
+        return repository.findById(id);
     }
 
     @Override
     public List<ProfessionalSource> handleGetAll() {
-        return professionalSourceRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public List<ProfessionalSource> handleGetAllByCity(String cityName) {
-        return professionalSourceRepository.findAllByLocation_CityName(cityName); // ojo con el embeddable
+        return repository.findAllByLocation_CityName(cityName);
     }
 
     @Override
     public List<ProfessionalSource> handleGetAllByDistrict(String districtName) {
-        return professionalSourceRepository.findAllByLocation_DistrictName(districtName);
+        return repository.findAllByLocation_DistrictName(districtName);
     }
 }

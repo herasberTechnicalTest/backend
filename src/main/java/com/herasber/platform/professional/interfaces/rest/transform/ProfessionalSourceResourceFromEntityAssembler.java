@@ -7,10 +7,18 @@ public class ProfessionalSourceResourceFromEntityAssembler {
         var maps = e.buildMapsLink();
         var wa   = e.buildWhatsappLink(null);
         return new ProfessionalSourceResource(
-                e.getId(), e.getFullName(), e.getPhone(), e.getServicesDescription(),
+                e.getId(),
+                e.getFullName(),
+                e.getPhone(),
+                e.getServicesDescription(),
                 e.getPhotoUrl(),
-                e.getLocation().getCityName(), e.getLocation().getDistrictName(),
-                maps, wa
+                e.getGallery(),
+                e.getRate(),
+                e.getCurrency(),
+                e.getLocation().getCityName(),
+                e.getLocation().getDistrictName(),
+                e.buildMapsLink(),
+                e.buildWhatsappLink(null)
         );
     }
 }

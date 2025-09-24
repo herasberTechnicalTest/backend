@@ -1,10 +1,16 @@
 package com.herasber.platform.professional.interfaces.rest.resources;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public record CreateProfessionalSourceResource(
         String fullName,
         String phone,
         String servicesDescription,
         String photoUrl,
+        List<String> gallery,
+        BigDecimal rate,
+        String currency,
         String cityName,
         String districtName,
         String mapsUrl

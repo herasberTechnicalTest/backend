@@ -2,13 +2,19 @@ package com.herasber.platform.professional.domain.model.commands;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public record UpdateProfessionalSourceCommand(
-        @NotBlank String fullName,
-        @NotBlank String servicesDescription,
-        @NotBlank String phone,
+        Long id,
+        String fullName,
+        String phone,
+        String servicesDescription,
         String photoUrl,
-        // location
-        @NotBlank String cityName,
-        @NotBlank String districtName,
+        List<String> gallery,
+        BigDecimal rate,
+        String currency,
+        String cityName,
+        String districtName,
         String mapsUrl
 ) { }

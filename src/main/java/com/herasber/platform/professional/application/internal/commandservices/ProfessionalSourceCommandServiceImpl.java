@@ -18,24 +18,24 @@ import java.util.Optional;
 public class ProfessionalSourceCommandServiceImpl implements ProfessionalSourceCommandService {
 
     private final ProfessionalSourceRepository repository;
+
     @Override
     public ProfessionalSource handle(CreateProfessionalSourceCommand command) {
-        ProfessionalSource aggregate = ProfessionalSource.from(command); // ← aquí
+        ProfessionalSource aggregate = ProfessionalSource.from(command);
         return repository.save(aggregate);
     }
+
     @Override
-    public Optional<ProfessionalSource> update(Long id, UpdateProfessionalSourceCommand command) {
-        return repository.findById(id).map(entity -> {
-            entity.apply(command);
-            return repository.save(entity);
-        });
+    public Optional<ProfessionalSource> update(UpdateProfessionalSourceCommand command) {
+        return repository.findById(command.id())
+                .map(existing -> {
+                    existing.apply(command);
+                    return repository.save(existing);
+                });
     }
 
     @Override
-    public boolean delete(Long id) {
-        if (!repository.existsById(id)) return false;
+    public void delete(Long id) {
         repository.deleteById(id);
-        return true;
     }
-
 }

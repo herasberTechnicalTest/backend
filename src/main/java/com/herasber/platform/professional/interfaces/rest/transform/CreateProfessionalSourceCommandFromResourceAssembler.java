@@ -6,8 +6,16 @@ import com.herasber.platform.professional.interfaces.rest.resources.CreateProfes
 public class CreateProfessionalSourceCommandFromResourceAssembler {
     public static CreateProfessionalSourceCommand toCommandFromResource(CreateProfessionalSourceResource r){
         return new CreateProfessionalSourceCommand(
-                r.fullName(), r.phone(), r.servicesDescription(), r.photoUrl(),
-                r.cityName(), r.districtName(), r.mapsUrl()
+                r.fullName(),
+                r.phone(),
+                r.servicesDescription(),
+                r.photoUrl(),
+                r.gallery(),
+                r.rate(),
+                r.currency(),
+                r.cityName(),
+                r.districtName(),
+                r.mapsUrl()
         );
     }
 }
