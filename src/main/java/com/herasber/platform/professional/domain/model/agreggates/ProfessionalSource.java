@@ -4,8 +4,7 @@ import com.herasber.platform.location.domain.model.aggregates.LocationSource;
 import com.herasber.platform.professional.domain.model.commands.CreateProfessionalSourceCommand;
 import com.herasber.platform.professional.domain.model.commands.UpdateProfessionalSourceCommand;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
