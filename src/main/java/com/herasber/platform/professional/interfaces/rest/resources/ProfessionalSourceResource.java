@@ -12,9 +12,10 @@ public record ProfessionalSourceResource(
         List<String> gallery,
         BigDecimal rate,
         String currency,
-        String city,
-        String district,
-        String mapsLink,
+        String countryName,
+        String cityName,
+        String districtName,
+        String mapsUrl,
         String whatsappLink
 ) {
 }

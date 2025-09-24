@@ -4,8 +4,11 @@ import com.herasber.platform.professional.interfaces.rest.resources.Professional
 
 public class ProfessionalSourceResourceFromEntityAssembler {
     public static ProfessionalSourceResource toResourceFromEntity(com.herasber.platform.professional.domain.model.aggregates.ProfessionalSource e){
-        var maps = e.buildMapsLink();
-        var wa   = e.buildWhatsappLink(null);
+        var loc = e.getLocation();
+        String country   = (loc != null) ? loc.getCountryName()  : null;
+        String city      = (loc != null) ? loc.getCityName()     : null;
+        String district  = (loc != null) ? loc.getDistrictName() : null;
+
         return new ProfessionalSourceResource(
                 e.getId(),
                 e.getFullName(),
@@ -15,9 +18,10 @@ public class ProfessionalSourceResourceFromEntityAssembler {
                 e.getGallery(),
                 e.getRate(),
                 e.getCurrency(),
-                e.getLocation().getCityName(),
-                e.getLocation().getDistrictName(),
-                e.buildMapsLink(),
+                country,
+                city,
+                district,
+                e.getMapsUrl(),
                 e.buildWhatsappLink(null)
         );
     }

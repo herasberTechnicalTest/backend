@@ -13,9 +13,10 @@ public class CreateProfessionalSourceCommandFromResourceAssembler {
                 r.gallery(),
                 r.rate(),
                 r.currency(),
+                r.countryName(),
                 r.cityName(),
                 r.districtName(),
-                r.mapsUrl()
+                null
         );
     }
 }

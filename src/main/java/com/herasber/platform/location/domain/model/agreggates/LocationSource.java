@@ -14,22 +14,39 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 public class LocationSource {
+
+    @Column(nullable = false) @NotBlank private String countryName;
     @Column(nullable = false) @NotBlank private String cityName;
     @Column(nullable = false) @NotBlank private String districtName;
+
     private String mapsUrl;
 
-    public LocationSource(String cityName, String districtName, String mapsUrl) {
-        this.cityName = cityName.trim();
+    public LocationSource(String countryName, String cityName, String districtName, String ignoredMapsUrl) {
+        this.countryName  = countryName.trim();
+        this.cityName     = cityName.trim();
         this.districtName = districtName.trim();
-        this.mapsUrl = (mapsUrl == null || mapsUrl.isBlank()) ? null : mapsUrl.trim();
+        this.mapsUrl = null;
     }
-    public String buildMapsUrl() { return buildMapsUrl(null); }
-    public String buildMapsUrl(String countryName) {
-        if (mapsUrl != null && !mapsUrl.isBlank()) return mapsUrl;
-        String q = (districtName + ", " + cityName + (countryName != null && !countryName.isBlank() ? ", " + countryName : "")).replaceAll("\\s+"," ").trim();
-        return "https://www.google.com/maps/search/?api=1&query=" + URLEncoder.encode(q, StandardCharsets.UTF_8);
+
+    public void ensureMapsUrl() {
+        String q = (districtName + ", " + cityName + ", " + countryName)
+                .replaceAll("\\s+", " ").trim();
+        this.mapsUrl = "https://www.google.com/maps/search/?api=1&query=" +
+                URLEncoder.encode(q, StandardCharsets.UTF_8);
     }
-    @Override public boolean equals(Object o){ if(this==o) return true; if(!(o instanceof LocationSource that)) return false;
-        return Objects.equals(cityName, that.cityName) && Objects.equals(districtName, that.districtName) && Objects.equals(mapsUrl, that.mapsUrl);}
-    @Override public int hashCode(){ return Objects.hash(cityName, districtName, mapsUrl); }
+
+    public String getOrBuildMapsUrl() {
+        if (this.mapsUrl == null || this.mapsUrl.isBlank()) ensureMapsUrl();
+        return this.mapsUrl;
+    }
+
+    @Override public boolean equals(Object o){
+        if (this == o) return true;
+        if (!(o instanceof LocationSource that)) return false;
+        return Objects.equals(countryName, that.countryName)
+                && Objects.equals(cityName, that.cityName)
+                && Objects.equals(districtName, that.districtName)
+                && Objects.equals(mapsUrl, that.mapsUrl);
+    }
+    @Override public int hashCode(){ return Objects.hash(countryName, cityName, districtName, mapsUrl); }
 }

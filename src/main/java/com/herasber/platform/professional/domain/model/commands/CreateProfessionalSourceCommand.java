@@ -12,6 +12,7 @@ public record CreateProfessionalSourceCommand(
         List<String> gallery,
         BigDecimal rate,
         String currency,
+        String countryName,
         String cityName,
         String districtName,
         String mapsUrl
@@ -23,4 +24,5 @@ public CreateProfessionalSourceCommand {
     if (cityName == null || cityName.isBlank()) throw new IllegalArgumentException("cityName cannot be null or empty");
     if (districtName == null || districtName.isBlank()) throw new IllegalArgumentException("districtName cannot be null or empty");
     }
+
 }
