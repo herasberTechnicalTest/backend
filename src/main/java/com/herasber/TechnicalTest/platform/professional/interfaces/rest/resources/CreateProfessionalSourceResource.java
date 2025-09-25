@@ -5,6 +5,8 @@ import java.util.List;
 
 public record CreateProfessionalSourceResource(
         String fullName,
+        String email,
+        String password,
         String phone,
         String servicesDescription,
         String photoUrl,
@@ -28,6 +30,8 @@ public record CreateProfessionalSourceResource(
             throw new IllegalArgumentException("cityName cannot be null or empty");
         if (districtName == null || districtName.isBlank())
             throw new IllegalArgumentException("districtName cannot be null or empty");
+        if (email==null||email.isBlank()) throw new IllegalArgumentException("email required");
+        if (password==null||password.isBlank()) throw new IllegalArgumentException("password required");
 
         fullName = fullName.trim();
         phone = phone.trim();
@@ -35,10 +39,13 @@ public record CreateProfessionalSourceResource(
         countryName = countryName.trim();
         cityName = cityName.trim();
         districtName = districtName.trim();
+        password = password.trim();
+        email = email.trim();
+
 
         photoUrl = (photoUrl == null || photoUrl.isBlank()) ? null : photoUrl.trim();
         currency = (currency == null || currency.isBlank()) ? null : currency.trim();
-        mapsUrl = (mapsUrl == null || mapsUrl.isBlank()) ? null : mapsUrl.trim(); // será ignorado si generas automáticamente
+        mapsUrl = (mapsUrl == null || mapsUrl.isBlank()) ? null : mapsUrl.trim();
 
         gallery = (gallery == null) ? List.of() : List.copyOf(gallery);
 
