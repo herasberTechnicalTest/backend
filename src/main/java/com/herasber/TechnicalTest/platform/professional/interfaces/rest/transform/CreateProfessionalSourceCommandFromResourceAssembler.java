@@ -7,6 +7,8 @@ public class CreateProfessionalSourceCommandFromResourceAssembler {
     public static CreateProfessionalSourceCommand toCommandFromResource(CreateProfessionalSourceResource r){
         return new CreateProfessionalSourceCommand(
                 r.fullName(),
+                r.email(),
+                r.password(),
                 r.phone(),
                 r.servicesDescription(),
                 r.photoUrl(),
@@ -15,8 +17,7 @@ public class CreateProfessionalSourceCommandFromResourceAssembler {
                 r.currency(),
                 r.countryName(),
                 r.cityName(),
-                r.districtName(),
-                null
+                r.districtName()
         );
     }
 }
