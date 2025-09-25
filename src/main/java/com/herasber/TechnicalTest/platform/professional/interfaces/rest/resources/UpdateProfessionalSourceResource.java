@@ -6,6 +6,7 @@ import java.util.List;
 public record UpdateProfessionalSourceResource(
         Long id,
         String fullName,
+        String email, String password,
         String phone,
         String servicesDescription,
         String photoUrl,
