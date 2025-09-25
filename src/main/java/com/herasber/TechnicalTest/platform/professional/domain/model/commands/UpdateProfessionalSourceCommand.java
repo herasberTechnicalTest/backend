@@ -8,6 +8,8 @@ import java.util.List;
 public record UpdateProfessionalSourceCommand(
         Long id,
         String fullName,
+        String email,
+        String password,
         String phone,
         String servicesDescription,
         String photoUrl,
