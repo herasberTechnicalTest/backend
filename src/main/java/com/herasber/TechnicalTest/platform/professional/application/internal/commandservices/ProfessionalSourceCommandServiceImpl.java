@@ -7,6 +7,7 @@ import com.herasber.TechnicalTest.platform.professional.domain.services.Professi
 import com.herasber.TechnicalTest.platform.professional.infrastructure.persistance.jpa.ProfessionalSourceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,25 +18,38 @@ import java.util.Optional;
 @Transactional
 public class ProfessionalSourceCommandServiceImpl implements ProfessionalSourceCommandService {
 
-    private final ProfessionalSourceRepository repository;
+    private final ProfessionalSourceRepository repo;
 
     @Override
-    public ProfessionalSource handle(CreateProfessionalSourceCommand command) {
-        ProfessionalSource aggregate = ProfessionalSource.from(command);
-        return repository.save(aggregate);
+    public ProfessionalSource handle(CreateProfessionalSourceCommand cmd) {
+        String norm = cmd.email().trim().toLowerCase();
+        if (repo.existsByEmailNorm(norm)) throw new IllegalArgumentException("Email already in use");
+
+        var agg = ProfessionalSource.from(cmd);
+        try {
+            return repo.save(agg);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("Email already in use");
+        }
     }
 
     @Override
-    public Optional<ProfessionalSource> update(UpdateProfessionalSourceCommand command) {
-        return repository.findById(command.id())
-                .map(existing -> {
-                    existing.apply(command);
-                    return repository.save(existing);
-                });
+    public Optional<ProfessionalSource> update(UpdateProfessionalSourceCommand cmd) {
+        String norm = cmd.email().trim().toLowerCase();
+        return repo.findById(cmd.id()).map(p -> {
+            if (!p.getEmail().equalsIgnoreCase(cmd.email()) && repo.existsByEmailNorm(norm)) {
+                throw new IllegalArgumentException("Email already in use");
+            }
+            p.apply(cmd);
+            return repo.save(p);
+        });
     }
 
     @Override
     public void delete(Long id) {
-        repository.deleteById(id);
+        repo.deleteById(id);
     }
+
+
+
 }
