@@ -6,6 +6,7 @@ import com.herasber.TechnicalTest.platform.professional.infrastructure.persistan
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -27,6 +28,11 @@ public class ProfessionalSourceQueryServiceImpl implements ProfessionalSourceQue
     @Override
     public List<ProfessionalSource> handleGetAllByCity(String cityName) {
         return repository.findAllByLocation_CityName(cityName);
+    }
+
+    @Override
+    public List<ProfessionalSource> handleGetAllByRate(BigDecimal rate) {
+        return repository.findAllByRate(rate);
     }
 
     @Override

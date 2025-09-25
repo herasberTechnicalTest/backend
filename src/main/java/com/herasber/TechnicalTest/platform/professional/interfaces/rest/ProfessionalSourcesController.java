@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class ProfessionalSourcesController {
     @GetMapping
     public List<ProfessionalSourceResource> getAll(
             @RequestParam(value = "city", required = false) String city,
-            @RequestParam(value = "district", required = false) String district) {
+            @RequestParam(value = "district", required = false) String district,
+            @RequestParam(value = "rate", required = false) BigDecimal rate){
 
         List<ProfessionalSource> list;
 
@@ -45,6 +47,11 @@ public class ProfessionalSourcesController {
             list = queryService.handleGetAllByDistrict(district);
         } else {
             list = queryService.handleGetAll();
+        }
+        if (rate != null) {
+            list = list.stream()
+                    .filter(p -> p.getRate()!=null && p.getRate().compareTo(rate)==0)
+                    .toList();
         }
 
         return list.stream()
