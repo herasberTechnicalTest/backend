@@ -8,6 +8,8 @@ public class UpdateProfessionalSourceCommandFromResourceAssembler {
         return new UpdateProfessionalSourceCommand(
                 r.id(),
                 r.fullName(),
+                r.email(),
+                r.password(),
                 r.phone(),
                 r.servicesDescription(),
                 r.photoUrl(),
