@@ -22,13 +22,13 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/professional")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ProfessionalSourcesController {
     private final ProfessionalSourceCommandService commandService;
     private final ProfessionalSourceQueryService queryService;
 
-    @GetMapping
+    @GetMapping("/professionals")
     public List<ProfessionalSourceResource> getAll(
             @RequestParam(value = "city", required = false) String city,
             @RequestParam(value = "district", required = false) String district,
@@ -67,7 +67,7 @@ public class ProfessionalSourcesController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/professional")
     public ResponseEntity<ProfessionalSourceResource> create(
             @Valid @RequestBody CreateProfessionalSourceResource body) {
 
@@ -80,7 +80,7 @@ public class ProfessionalSourcesController {
         return ResponseEntity.created(URI.create("/api/v1/professional/" + saved.getId())).body(res);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/professionals/{id}")
     public ResponseEntity<ProfessionalSourceResource> update(
             @PathVariable Long id,
             @Valid @RequestBody UpdateProfessionalSourceResource body) {
@@ -96,7 +96,7 @@ public class ProfessionalSourcesController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/professionals/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         commandService.delete(id);
         return ResponseEntity.noContent().build();
