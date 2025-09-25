@@ -16,5 +16,4 @@ public interface ProfessionalSourceRepository extends JpaRepository<Professional
     List<ProfessionalSource> findAllByLocation_DistrictName(String districtName);
     Optional<ProfessionalSource> findByEmail(String email);
     boolean existsByEmailNorm(String emailNorm);
-    Optional<ProfessionalSource> findByEmailNorm(String emailNorm);
 }
