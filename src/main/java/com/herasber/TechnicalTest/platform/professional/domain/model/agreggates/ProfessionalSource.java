@@ -1,6 +1,7 @@
 package com.herasber.TechnicalTest.platform.professional.domain.model.agreggates;
 
 import com.herasber.TechnicalTest.platform.location.domain.model.agreggates.LocationSource;
+import com.herasber.TechnicalTest.platform.password.domain.model.agreggates.Passwords;
 import com.herasber.TechnicalTest.platform.professional.domain.model.commands.CreateProfessionalSourceCommand;
 import com.herasber.TechnicalTest.platform.professional.domain.model.commands.UpdateProfessionalSourceCommand;
 import jakarta.persistence.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -53,6 +55,15 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
     @Getter
     private String currency;
 
+    @Column(nullable = false, unique = true) @Getter
+    private String email;
+
+    @Column(name = "email_norm", nullable = false, length = 320, unique = true)
+    private String emailNorm;
+
+    @Column(nullable = false, name = "password_hash")
+    private String passwordHash;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "countryName",  column = @Column(name = "country_name",  nullable = false)),
@@ -77,6 +88,9 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
         this.servicesDescription = command.servicesDescription();
         this.photoUrl = command.photoUrl();
 
+        setEmail(command.email());
+        this.passwordHash = Passwords.hash(command.password());
+
         if (command.gallery() != null) this.gallery = new ArrayList<>(command.gallery());
         this.rate = command.rate();
         this.currency = command.currency();
@@ -87,18 +101,27 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
                 command.districtName(),
                 null
         );
-        ensureDerivedFields();
     }
 
     public static ProfessionalSource from(CreateProfessionalSourceCommand c) {
         return new ProfessionalSource(c);
     }
 
+    public String getPasswordHash() { return passwordHash; }
+
     public void apply(UpdateProfessionalSourceCommand command) {
         this.fullName = command.fullName();
         this.phone = command.phone();
         this.servicesDescription = command.servicesDescription();
         this.photoUrl = command.photoUrl();
+
+        if (command.email() != null && !command.email().isBlank()) {
+            setEmail(command.email());
+        }
+
+        if (command.password() != null && !command.password().isBlank()) {
+            changePassword(command.password());
+        }
 
         this.gallery = (command.gallery() != null) ? new ArrayList<>(command.gallery()) : new ArrayList<>();
         this.rate = command.rate();
@@ -110,7 +133,23 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
                 command.districtName(),
                 null
         );
-        ensureDerivedFields();
+    }
+
+    public void setEmail(String email) {
+        if (email == null || email.isBlank()) throw new IllegalArgumentException("email cannot be null/blank");
+        this.email = email.trim();
+        this.emailNorm = this.email.toLowerCase();
+    }
+
+    public boolean matchesPassword(String raw) {
+        return Passwords.matches(raw, this.passwordHash);
+    }
+
+    public void changePassword(String newRawPassword) {
+        if (newRawPassword == null || newRawPassword.isBlank()) {
+            throw new IllegalArgumentException("New password cannot be null or blank");
+        }
+        this.passwordHash = Passwords.hash(newRawPassword);
     }
 
     public String buildWhatsappLink(String preset) {
@@ -125,7 +164,13 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
 
     @PrePersist
     @PreUpdate
-    private void ensureDerivedFields() {
-        if (location != null) location.ensureMapsUrl();
+    private void beforeSave() {
+        if (email != null) {
+            email = email.trim();
+            emailNorm = email.toLowerCase();
+        }
+        if (location != null) {
+            location.ensureMapsUrl();
+        }
     }
 }
