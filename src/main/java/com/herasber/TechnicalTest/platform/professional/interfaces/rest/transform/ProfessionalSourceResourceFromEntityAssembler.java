@@ -13,15 +13,16 @@ public class ProfessionalSourceResourceFromEntityAssembler {
         return new ProfessionalSourceResource(
                 e.getId(),
                 e.getFullName(),
+                e.getEmail(),
                 e.getPhone(),
                 e.getServicesDescription(),
                 e.getPhotoUrl(),
                 e.getGallery(),
                 e.getRate(),
                 e.getCurrency(),
-                country,
-                city,
-                district,
+                loc != null ? loc.getCountryName()  : null,
+                loc != null ? loc.getCityName()     : null,
+                loc != null ? loc.getDistrictName() : null,
                 e.getMapsUrl(),
                 e.buildWhatsappLink(null)
         );
