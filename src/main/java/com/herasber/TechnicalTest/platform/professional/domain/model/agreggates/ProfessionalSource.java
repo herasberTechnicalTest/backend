@@ -40,13 +40,16 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
     @Column(nullable = false, length = 5000) @Getter @NotBlank
     private String servicesDescription;
 
+
     @Getter
+    @Lob
+    @Column(name = "photo_url", columnDefinition = "TEXT")
     private String photoUrl;
 
     @ElementCollection
-    @CollectionTable(name = "professional_source_gallery", joinColumns = @JoinColumn(name = "professional_id"))
-    @Column(name = "image_url", length = 1024)
     @Getter
+    @CollectionTable(name = "professional_gallery", joinColumns = @JoinColumn(name = "professional_id"))
+    @Column(name = "image_data", columnDefinition = "TEXT")
     private List<String> gallery = new ArrayList<>();
 
     @Getter
