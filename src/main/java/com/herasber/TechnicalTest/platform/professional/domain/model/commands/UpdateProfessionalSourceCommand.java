@@ -15,9 +15,5 @@ public record UpdateProfessionalSourceCommand(
         String photoUrl,
         List<String> gallery,
         BigDecimal rate,
-        String currency,
-        String countryName,
-        String cityName,
-        String districtName,
-        String mapsUrl
+        String currency
 ) { }

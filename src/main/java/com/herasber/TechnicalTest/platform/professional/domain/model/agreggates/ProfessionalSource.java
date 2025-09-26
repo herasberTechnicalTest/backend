@@ -130,12 +130,7 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
         this.rate = command.rate();
         this.currency = command.currency();
 
-        this.location = new LocationSource(
-                command.countryName(),
-                command.cityName(),
-                command.districtName(),
-                null
-        );
+
     }
 
     public void setEmail(String email) {

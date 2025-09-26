@@ -15,11 +15,7 @@ public class UpdateProfessionalSourceCommandFromResourceAssembler {
                 r.photoUrl(),
                 r.gallery(),
                 r.rate(),
-                r.currency(),
-                r.cityName(),
-                r.districtName(),
-                r.mapsUrl(),
-                r.countryName()
+                r.currency()
         );
     }
 }
