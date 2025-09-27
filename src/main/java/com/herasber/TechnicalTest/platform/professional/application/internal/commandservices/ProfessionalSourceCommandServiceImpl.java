@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -50,6 +51,36 @@ public class ProfessionalSourceCommandServiceImpl implements ProfessionalSourceC
         repo.deleteById(id);
     }
 
+    @Override
+    public List<String> getGallery(Long professionalId) {
+        Optional<ProfessionalSource> professionalSource = repo.findById(professionalId);
+        return professionalSource.map(ProfessionalSource::getGallery).orElse(null);
+    }
 
+    @Override
+    public List<String> updateGallery(Long professionalId, List<String> gallery) {
+        Optional<ProfessionalSource> professionalSource = repo.findById(professionalId);
+        if (professionalSource.isPresent()) {
+            ProfessionalSource source = professionalSource.get();
+            source.setGallery(gallery);  // Asignamos la nueva galería al profesional
+            repo.save(source);  // Guardamos los cambios
+            return source.getGallery();  // Devolvemos la galería actualizada
+        }
+        return null;
+    }
+
+    @Override
+    public boolean deleteImageFromGallery(Long professionalId, String imageUrl) {
+        Optional<ProfessionalSource> professionalSource = repo.findById(professionalId);
+        if (professionalSource.isPresent()) {
+            ProfessionalSource source = professionalSource.get();
+            boolean removed = source.getGallery().remove(imageUrl);
+            if (removed) {
+                repo.save(source);  // Guardamos los cambios
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

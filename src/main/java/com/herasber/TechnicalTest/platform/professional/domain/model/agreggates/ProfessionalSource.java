@@ -171,4 +171,8 @@ public class ProfessionalSource extends AbstractAggregateRoot<ProfessionalSource
             location.ensureMapsUrl();
         }
     }
+
+    public void setGallery(List<String> gallery) {
+        this.gallery = gallery;
+    }
 }
