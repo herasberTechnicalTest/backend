@@ -13,7 +13,7 @@
 
     <groupId>com.herasber</groupId>
     <artifactId>TechnicalTest</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1-</version>
     <name>TechnicalTest</name>
     <description>Minimal Spring Boot REST API for professionals: simple auth, profile CRUD, public listing &amp; detail.</description>
 
